@@ -42,7 +42,7 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
-  return pullRequest.body.replace(/(\r\n)/g,"\n")
+  return pullRequest.body.replace(/(\r\n)/g, '\n')
 }
 
 const getPrTemplate = async (client, paths) => {
