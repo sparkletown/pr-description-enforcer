@@ -57,7 +57,7 @@ const getPrTemplate = async (client, paths) => {
   core.info(`trying pr template path: ${prTemplatePath}`);
 
   try {
-    const {data: {type, content}} = await client.repos.getContent({
+    const {data: content} = await client.repos.getContent({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       path: prTemplatePath,
