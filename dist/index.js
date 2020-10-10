@@ -70,9 +70,11 @@ const getPrTemplate = async (client, paths) => {
       return getPrTemplate(client, paths)
     }
 
-    const prTemplate = Buffer.from(content, 'base64').toString('ascii')
+    const prTemplate = Buffer.from(content, 'base64').toString('utf8')
 
     core.info(`pr template (${prTemplatePath}) content: "${prTemplate}"`);
+
+    core.info(`pr template (${prTemplatePath}) base64: "${content}"`);
 
     return prTemplate.trim();
   } catch (error) {
