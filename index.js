@@ -69,7 +69,7 @@ const getPrTemplate = async (client, paths) => {
 
     // const hash = crypto.createHash('md5').update(content).digest("hex")
     // core.info(`pr template hash: ${hash}`)
-    core.info(`pr description hash: ${Buffer.from(content).toString('base64')}`)
+    core.info(`pr template hash: ${Buffer.from(content).toString('base64')}`)
     core.info(`"${content}"`)
 
     return content;
