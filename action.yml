@@ -1,5 +1,8 @@
 name: 'Pull Request Description Enforcer'
 description: 'github action for enforcing description on pull requests'
+branding:
+  icon: 'book-open'  
+  color: 'yellow'
 inputs: 
   repo-token:
     description: 'The GITHUB_TOKEN secret'
