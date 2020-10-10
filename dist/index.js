@@ -68,9 +68,10 @@ const getPrTemplate = async (client, paths) => {
       return getPrTemplate(client, paths)
     }
 
-    core.info(`pr template (${prTemplatePath}) content: ${atob(content)}`);
+    const prTemplate = Buffer.from(content, 'base64').toString('ascii')
+    core.info(`pr template (${prTemplatePath}) content: ${prTemplate}`);
 
-    return atob(content).trim();
+    return prTemplate.trim();
   } catch (error) {
     if (!paths.length) {
       return undefined
