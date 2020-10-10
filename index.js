@@ -54,7 +54,7 @@ const getPrTemplate = async (client, paths) => {
     const {data} = await client.repos.getContent({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
-      prTemplatePath,
+      path: prTemplatePath,
     });
     core.info(`pr template (${prTemplatePath}) content: ${JSON.stringify(data)}`);
 
