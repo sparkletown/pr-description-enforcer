@@ -7,6 +7,7 @@ require('./sourcemap-register.js');module.exports =
 
 const core = __webpack_require__(186);
 const github = __webpack_require__(438);
+const crypto = __webpack_require__(417)
 
 const PR_TEMPLATE_PATHS = [
   'PULL_REQUEST_TEMPLATE.md',
@@ -49,7 +50,9 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
-  core.info(`pr description: ${Buffer.from(pullRequest.body).toString('base64')}`)
+  const hash = crypto.createHash('md5').update(pullRequest.body).digest("hex")
+
+  core.info(`pr description: ${hash}`)
 
   return pullRequest.body && pullRequest.body.trim()
 }
@@ -71,7 +74,10 @@ const getPrTemplate = async (client, paths) => {
     }
 
     const prTemplate = Buffer.from(content, 'base64').toString('ascii')
-    core.info(`pr template (${prTemplatePath}) content: ${content}`);
+
+    const hash = crypto.createHash('md5').update(prTemplate).digest("hex")
+
+    core.info(`pr template (${prTemplatePath}) content: ${hash}`);
 
     return prTemplate.trim();
   } catch (error) {
@@ -5950,6 +5956,14 @@ module.exports = eval("require")("encoding");
 
 "use strict";
 module.exports = require("assert");
+
+/***/ }),
+
+/***/ 417:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("crypto");
 
 /***/ }),
 
