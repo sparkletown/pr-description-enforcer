@@ -49,6 +49,8 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
+  Buffer.from(pullRequest.body).toString('base64')
+
   return pullRequest.body && pullRequest.body.trim()
 }
 
@@ -69,7 +71,7 @@ const getPrTemplate = async (client, paths) => {
     }
 
     const prTemplate = Buffer.from(content, 'base64').toString('ascii')
-    core.info(`pr template (${prTemplatePath}) content: ${prTemplate}`);
+    core.info(`pr template (${prTemplatePath}) content: ${content}`);
 
     return prTemplate.trim();
   } catch (error) {
