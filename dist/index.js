@@ -22,23 +22,25 @@ const getPrDescription = async (client) => {
     core.error("Could not get pull request number from context, exiting");
     return;
   }
-
   const { data: pullRequest } = await client.pulls.get({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     pull_number: prNumber
   });
 
-  core.info(`pr body: ${pullRequest.body && pullRequest.body.trim()}`);
-
   return pullRequest.body && pullRequest.body.trim()
 }
 
 const getPrTemplate = async (client) => {
-  const {data: {files: {pull_request_template}}} = await client.repos.getCommunityProfileMetrics({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-  });
+  try {
+    const {data: {files: {pull_request_template}}} = await client.repos.getCommunityProfileMetrics({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+    });
+  } catch (error) {
+    core.setFailed(`error getting pr template: ${error.message}`);
+  }
+ 
 
   if (!pull_request_template) {
     return ''
