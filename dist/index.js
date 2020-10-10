@@ -63,7 +63,7 @@ const getPrTemplate = async (client, paths) => {
       repo: github.context.repo.repo,
       prTemplatePath,
     });
-    core.info(`pr template content: ${prTemplateContents}`);
+    core.info(`pr template content: ${JSON.stringify(prTemplateContents)}`);
 
     return prTemplateContents.trim();
   } catch (error) {
