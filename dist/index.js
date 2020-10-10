@@ -51,7 +51,7 @@ const getPrDescription = async (client) => {
 
   core.info(`pr description: "${pullRequest.body}"`)
 
-  return pullRequest.body && pullRequest.body.trim()
+  return pullRequest.body
 }
 
 const getPrTemplate = async (client, paths) => {
@@ -72,11 +72,7 @@ const getPrTemplate = async (client, paths) => {
 
     const prTemplate = Buffer.from(content, 'base64').toString('utf8')
 
-    core.info(`pr template (${prTemplatePath}) content: "${prTemplate}"`);
-
-    core.info(`pr template (${prTemplatePath}) base64: "${content}"`);
-
-    return prTemplate.trim();
+    return prTemplate;
   } catch (error) {
     if (!paths.length) {
       return undefined
