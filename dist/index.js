@@ -50,13 +50,7 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
-  // const hash = crypto.createHash('md5').update(pullRequest.body).digest("hex")
-  // core.info(`pr description hash: ${hash}`)
-  core.info(`pr description hash: ${Buffer.from(pullRequest.body).toString('base64')}`)
-
-  core.info(`"${pullRequest.body}"`)
-
-  return pullRequest.body
+  return pullRequest.body.replace(/(\r\n)/g,"\n")
 }
 
 const getPrTemplate = async (client, paths) => {
@@ -73,11 +67,6 @@ const getPrTemplate = async (client, paths) => {
         format: 'raw',
       } 
     });
-
-    // const hash = crypto.createHash('md5').update(content).digest("hex")
-    // core.info(`pr template hash: ${hash}`)
-    core.info(`pr template hash: ${Buffer.from(content).toString('base64')}`)
-    core.info(`"${content}"`)
 
     return content;
   } catch (error) {
