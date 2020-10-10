@@ -61,9 +61,7 @@ const getPrTemplate = async (client, paths) => {
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       path: prTemplatePath,
-      headers: {
-        'Accept': 'application/vnd.github.v3.raw'
-      }
+      format: 'raw',
     });
 
     if (type !== 'file') {
