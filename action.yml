@@ -1,13 +1,10 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
-inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+name: 'pr-description-enforcer'
+description: 'github action for enforcing description on PR'
+inputs: 
+  repo-token:
+    description: 'The GITHUB_TOKEN secret'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+    
 runs:
   using: 'node12'
   main: 'dist/index.js'
