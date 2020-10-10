@@ -1,6 +1,6 @@
 # Pull Request Description Enforcer
 
-github action for enforcing description on pull requests
+github action for enforcing description on pull requests, it will reject empty descriptions or unedited pull request template descriptions.
 
 ## Usage
 
