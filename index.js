@@ -61,15 +61,16 @@ const getPrTemplate = async (client, paths) => {
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       path: prTemplatePath,
+      headers: {
+        'Accept': 'application/vnd.github.v3.raw'
+      }
     });
 
     if (type !== 'file') {
       return getPrTemplate(client, paths)
     }
 
-    const prTemplate = Buffer.from(content, 'base64').toString('utf8');
-
-    const hash = crypto.createHash('md5').update(prTemplate.trim().replace(/^\s+|\s+$/g, '')).digest("hex")
+    const hash = crypto.createHash('md5').update(content.trim().replace(/^\s+|\s+$/g, '')).digest("hex")
     core.info(`pr template hash: ${hash}`)
     core.info(prTemplate)
 
