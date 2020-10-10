@@ -1,5 +1,5 @@
-name: 'pr-description-enforcer'
-description: 'github action for enforcing description on PR'
+name: 'Pull Request Description Enforcer'
+description: 'github action for enforcing description on pull requests'
 inputs: 
   repo-token:
     description: 'The GITHUB_TOKEN secret'
