@@ -62,7 +62,7 @@ async function run() {
   try {
     const token = core.getInput("repo-token", { required: true });
 
-    const client = new github.GitHub(token);
+    const client = github.getOctokit(token)
 
     const prDescription = await getPrDescription(client)
     const prTemplate = await getPrTemplate(client)
