@@ -49,7 +49,7 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
-  Buffer.from(pullRequest.body).toString('base64')
+  core.info(`pr description: ${Buffer.from(pullRequest.body).toString('base64')}`)
 
   return pullRequest.body && pullRequest.body.trim()
 }
