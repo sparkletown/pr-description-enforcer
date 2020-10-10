@@ -1,6 +1,5 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const crypto = require('crypto')
 
 const PR_TEMPLATE_PATHS = [
   'PULL_REQUEST_TEMPLATE.md',

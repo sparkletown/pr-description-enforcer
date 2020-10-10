@@ -7,7 +7,6 @@ require('./sourcemap-register.js');module.exports =
 
 const core = __webpack_require__(186);
 const github = __webpack_require__(438);
-const crypto = __webpack_require__(417)
 
 const PR_TEMPLATE_PATHS = [
   'PULL_REQUEST_TEMPLATE.md',
@@ -5945,14 +5944,6 @@ module.exports = eval("require")("encoding");
 
 "use strict";
 module.exports = require("assert");
-
-/***/ }),
-
-/***/ 417:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("crypto");
 
 /***/ }),
 
