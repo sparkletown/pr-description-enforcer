@@ -46,6 +46,8 @@ const getPrDescription = async (client) => {
   const hash = crypto.createHash('md5').update(pullRequest.body).digest("hex")
 
   core.info(`pr description hash: ${hash}`)
+  core.info(pullRequest.body)
+
   return pullRequest.body
 }
 
@@ -69,6 +71,7 @@ const getPrTemplate = async (client, paths) => {
 
     const hash = crypto.createHash('md5').update(prTemplate).digest("hex")
     core.info(`pr template hash: ${hash}`)
+    core.info(prTemplate)
 
     return prTemplate;
   } catch (error) {
