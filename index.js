@@ -42,6 +42,7 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
+  // github adds \r\n on pr body
   return pullRequest.body.replace(/(\r\n)/g, '\n')
 }
 
@@ -70,7 +71,6 @@ const getPrTemplate = async (client, paths) => {
   }
 }
 
-// most @actions toolkit packages have async methods
 async function run() {
   try {
     const token = core.getInput("repo-token", { required: true });
