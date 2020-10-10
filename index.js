@@ -51,12 +51,12 @@ const getPrTemplate = async (client, paths) => {
   core.info(`trying pr template path: ${prTemplatePath}`);
 
   try {
-    const prTemplateContents = await client.repos.getContent({
+    const {data} = await client.repos.getContent({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       prTemplatePath,
     });
-    core.info(`pr template content: ${JSON.stringify(prTemplateContents)}`);
+    core.info(`pr template (${prTemplatePath}) content: ${JSON.stringify(data)}`);
 
     return prTemplateContents.trim();
   } catch (error) {
