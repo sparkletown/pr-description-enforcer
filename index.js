@@ -1,6 +1,27 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
+const PR_TEMPLATE_PATHS = [
+  'PULL_REQUEST_TEMPLATE.md',
+  'pull_request_template.md',
+  '.github/PULL_REQUEST_TEMPLATE.md',
+  '.github/pull_request_template.md',
+  'docs/PULL_REQUEST_TEMPLATE.md',
+  'docs/pull_request_template.md',
+  'PULL_REQUEST_TEMPLATE.txt',
+  'pull_request_template.txt',
+  '.github/PULL_REQUEST_TEMPLATE.txt',
+  '.github/pull_request_template.txt',
+  'docs/PULL_REQUEST_TEMPLATE.txt',
+  'docs/pull_request_template.txt',
+  'PULL_REQUEST_TEMPLATE',
+  'pull_request_template',
+  '.github/PULL_REQUEST_TEMPLATE',
+  '.github/pull_request_template',
+  'docs/PULL_REQUEST_TEMPLATE',
+  'docs/pull_request_template',
+]
+
 const getPrNumber = () => {
   const pullRequest = github.context.payload.pull_request;
   if (!pullRequest) {
@@ -24,36 +45,26 @@ const getPrDescription = async (client) => {
   return pullRequest.body && pullRequest.body.trim()
 }
 
-const getPrTemplate = async (client) => {
+const getPrTemplate = async (client, paths) => {
+  const prTemplatePath = paths.shift();
+
+  core.info(`trying pr template path: ${prTemplatePath}`);
+
   try {
-    const {data: {files: {pull_request_template}}} = await client.repos.getCommunityProfileMetrics({
+    const prTemplateContents = await client.repos.getContent({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
+      prTemplatePath,
     });
+    core.info(`pr template content: ${prTemplateContents}`);
+
+    return prTemplateContents.trim();
   } catch (error) {
-    core.setFailed(`error getting pr template: ${error.message}`);
+    if (!paths.length) {
+      return undefined
+    }
+    return getPrTemplate(client, paths)
   }
- 
-
-  if (!pull_request_template) {
-    return ''
-  }
-
-  core.info(`pr template url: ${pull_request_template.url}`);
-
-  const prTemplatePath = pull_request_template && pull_request_template.url.split('/').splice(7).join('/');
-
-  core.info(`pr template path: ${prTemplatePath}`);
-
-  const {data: prTemplateContents} = await client.repos.getContent({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    prTemplatePath,
-  });
-
-  core.info(`pr template content: ${prTemplateContents}`);
-
-  return prTemplateContents.trim();
 }
 
 // most @actions toolkit packages have async methods
@@ -64,7 +75,7 @@ async function run() {
     const client = github.getOctokit(token)
 
     const prDescription = await getPrDescription(client)
-    const prTemplate = await getPrTemplate(client)
+    const prTemplate = await getPrTemplate(client, PR_TEMPLATE_PATHS)
 
     if (!prDescription || prDescription === prTemplate) {
       core.setFailed('PR description missing');
