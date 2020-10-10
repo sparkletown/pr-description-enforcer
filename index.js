@@ -66,10 +66,6 @@ const getPrTemplate = async (client, paths) => {
       } 
     });
 
-    if (type !== 'file') {
-      return getPrTemplate(client, paths)
-    }
-
     const hash = crypto.createHash('md5').update(content.trim().replace(/^\s+|\s+$/g, '')).digest("hex")
     core.info(`pr template hash: ${hash}`)
     core.info(content)
