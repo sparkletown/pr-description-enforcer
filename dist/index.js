@@ -29,7 +29,7 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
-  core.info(`pr: ${JSON.stringify(pullRequest)}`);
+  core.info(`pr body: ${pullRequest.body && pullRequest.body.trim()}`);
 
   return pullRequest.body && pullRequest.body.trim()
 }
@@ -40,9 +40,13 @@ const getPrTemplate = async (client) => {
     repo: github.context.repo.repo,
   });
 
+  if (!pull_request_template) {
+    return ''
+  }
+
   core.info(`pr template url: ${pull_request_template.url}`);
 
-  const prTemplatePath = pull_request_template.url.split('/').splice(7).join('/');
+  const prTemplatePath = pull_request_template && pull_request_template.url.split('/').splice(7).join('/');
 
   core.info(`pr template path: ${prTemplatePath}`);
 
