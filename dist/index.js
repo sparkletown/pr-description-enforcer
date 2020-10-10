@@ -58,18 +58,24 @@ const getPrTemplate = async (client, paths) => {
   core.info(`trying pr template path: ${prTemplatePath}`);
 
   try {
-    const {data} = await client.repos.getContent({
+    const {data: {type, content}} = await client.repos.getContent({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       path: prTemplatePath,
     });
-    core.info(`pr template (${prTemplatePath}) content: ${JSON.stringify(data)}`);
 
-    return prTemplateContents.trim();
+    if (type !== 'file') {
+      return getPrTemplate(client, paths)
+    }
+
+    core.info(`pr template (${prTemplatePath}) content: ${atob(content)}`);
+
+    return atob(content).trim();
   } catch (error) {
     if (!paths.length) {
       return undefined
     }
+    core.warning(`error getting pr template (${prTemplatePath}): ${error.message}`)
     return getPrTemplate(client, paths)
   }
 }
