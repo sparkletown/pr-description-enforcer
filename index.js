@@ -43,7 +43,7 @@ const getPrDescription = async (client) => {
     pull_number: prNumber
   });
 
-  const hash = crypto.createHash('md5').update(pullRequest.body.trim()).digest("hex")
+  const hash = crypto.createHash('md5').update(pullRequest.body.trim().replace(/^\s+|\s+$/g, '')).digest("hex")
 
   core.info(`pr description hash: ${hash}`)
   core.info(pullRequest.body)
@@ -69,7 +69,7 @@ const getPrTemplate = async (client, paths) => {
 
     const prTemplate = Buffer.from(content, 'base64').toString('utf8');
 
-    const hash = crypto.createHash('md5').update(prTemplate.trim()).digest("hex")
+    const hash = crypto.createHash('md5').update(prTemplate.trim().replace(/^\s+|\s+$/g, '')).digest("hex")
     core.info(`pr template hash: ${hash}`)
     core.info(prTemplate)
 
