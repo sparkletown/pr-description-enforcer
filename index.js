@@ -80,8 +80,10 @@ async function run() {
     const prDescription = await getPrDescription(client)
     const prTemplate = await getPrTemplate(client, PR_TEMPLATE_PATHS)
 
-    if (!prDescription || prDescription === prTemplate) {
-      core.setFailed('PR description missing');
+    if (!prDescription) {
+      core.setFailed("PR description missing");
+    } else if (prDescription.includes(prTemplate)) {
+      core.setFailed("PR description includes PR template text verbatim. Please adjust the default PR text to include a more complete description");
     }
   } catch (error) {
     core.setFailed(error.message);
